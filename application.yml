@@ -1,0 +1,66 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: rca-backend
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rca_db
+    username: ${DB_USERNAME:rca_user}
+    password: ${DB_PASSWORD:rca_password}
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  
+  flyway:
+    enabled: true
+
+app:
+  name: RCA Backend System
+  environment: production
+
+  # Email Configuration for Password Reset
+  email:
+    host: smtp.sendgrid.net
+    port: 587
+    username: apikey
+    password: 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
+    from: noreply@pragmaq.com
+    reply-to: support@pragmaq.com
+    tls:
+      enabled: true
+      required: true
+    ssl:
+      enabled: false
+    connection-timeout: 10000
+
+# JWT Configuration
+jwt:
+  issuer-uri: ${JWT_ISSUER_URI:http://localhost:8080}
+
+# OpenAI Configuration (Optional)
+openai:
+  api-key: ${OPENAI_API_KEY:your-openai-api-key}
+  base-url: ${OPENAI_BASE_URL:https://api.openai.com/v1}
+
+logging:
+  level:
+    com.enterprise.rca: INFO
+    org.springframework.security: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
